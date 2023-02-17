@@ -62,6 +62,10 @@ struct ContentView: View {
         ZStack {
             KeyDownViewRep(manager: manager)
             
+            Text("Score: \(manager.snake.count)")
+                .font(.largeTitle)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            
             Grid(horizontalSpacing: 0, verticalSpacing: 0) {
                 ForEach(0 ..< manager.rows, id: \.self) { row in
                     GridRow {
@@ -74,6 +78,25 @@ struct ContentView: View {
                     }
                     .frame(height: manager.cellHeight)
                 }
+            }
+            .opacity(manager.gameState == .lost ? 0.4 : 1)
+            
+            if manager.gameState == .lost {
+                VStack {
+                    Text("You Lost!")
+                        .font(.custom("SF Pro Rounded", size: 64))
+                        .bold()
+                        .shadow(color: .white, radius: 12)
+                    
+                    Button("Restart") {
+                        manager.restartGame()
+                    }
+                    .buttonStyle(.plain)
+                }
+                .transition(
+                    .scale.combined(with: .opacity)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.4))
+                )
             }
         }
         .frame(width: manager.cellWidth * CGFloat(manager.cols))
@@ -102,6 +125,10 @@ final class GameManager: ObservableObject {
         }
     }
     
+    enum GameState {
+        case playing, lost
+    }
+    
     
     @Published var cellWidth: CGFloat = 20
     @Published var cellHeight: CGFloat = 20
@@ -110,6 +137,7 @@ final class GameManager: ObservableObject {
     @Published var cols = 20
     
     @Published var grid: [Color] = []
+    @Published var gameState: GameState = .playing
     
     var snake: [(row: Int, col: Int)] = []
     var currentDirection: Direction = .down
@@ -122,19 +150,51 @@ final class GameManager: ObservableObject {
             (row: 1, col: cols / 2),
             (row: 2, col: cols / 2),
             (row: 3, col: cols / 2),
-        ]
+        ].reversed()
+    }
+    
+    func restartGame() {
+        self.clear()
+        self.snake = [
+            (row: 0, col: cols / 2),
+            (row: 1, col: cols / 2),
+            (row: 2, col: cols / 2),
+            (row: 3, col: cols / 2),
+        ].reversed()
+        self.currentDirection = .down
+        self.gameState = .playing
     }
     
     func update(_ date: Date) {
+        guard gameState == .playing else { return }
+        
         self.clear()
         
+        var newHead = snake[0]
+        newHead.row += currentDirection.displacement.row
+        newHead.col += currentDirection.displacement.col
+        
+        if newHead.row >= rows {
+            newHead.row = 0
+        } else if newHead.row < 0 {
+            newHead.row = rows - 1
+        }
+        
+        if newHead.col >= cols {
+            newHead.col = 0
+        } else if newHead.col <= 0 {
+            newHead.col = cols - 1
+        }
+        
+        for bodyPart in snake {
+            if bodyPart.row == newHead.row && bodyPart.col == newHead.col {
+                self.gameState = .lost
+                return
+            }
+        }
+        
         snake = snake.dropLast()
-        
-        var head = snake[0]
-        head.row += currentDirection.displacement.row
-        head.col += currentDirection.displacement.col
-        snake.insert(head, at: 0)
-        
+        snake.insert(newHead, at: 0)
         
         if let food {
             if let tail = snake.last, food.row == snake[0].row && food.col == snake[0].col {
