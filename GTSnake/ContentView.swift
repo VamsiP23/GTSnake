@@ -136,8 +136,12 @@ final class GameManager: ObservableObject {
         snake.insert(head, at: 0)
         
         
-        if let food, food.row == snake[0].row && food.col == snake[0].col {
-            // add tail
+        if let food {
+            if let tail = snake.last, food.row == snake[0].row && food.col == snake[0].col {
+                // add tail
+                snake.append(tail)
+                self.food = nil
+            }
         } else {
             self.food = (
                 row: Int.random(in: 0 ..< rows),
@@ -147,6 +151,10 @@ final class GameManager: ObservableObject {
         
         for (row, col) in snake {
             self[row, col] = .yellow
+        }
+        
+        if let food {
+            self[food.row, food.col] = .red
         }
     }
     
