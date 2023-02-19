@@ -11,6 +11,7 @@
 		2D00619C299EEE97005755FC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D00619B299EEE97005755FC /* ContentView.swift */; };
 		2D00619E299EEE98005755FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D00619D299EEE98005755FC /* Assets.xcassets */; };
 		2D0061A1299EEE98005755FC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D0061A0299EEE98005755FC /* Preview Assets.xcassets */; };
+		CE7215B529A1B6CF00F7745C /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7215B429A1B6CF00F7745C /* GameManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		2D00619D299EEE98005755FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2D0061A0299EEE98005755FC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2D0061A2299EEE98005755FC /* GTSnake.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GTSnake.entitlements; sourceTree = "<group>"; };
+		CE7215B429A1B6CF00F7745C /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				2D006199299EEE97005755FC /* GTSnakeApp.swift */,
 				2D00619B299EEE97005755FC /* ContentView.swift */,
+				CE7215B429A1B6CF00F7745C /* GameManager.swift */,
 				2D00619D299EEE98005755FC /* Assets.xcassets */,
 				2D0061A2299EEE98005755FC /* GTSnake.entitlements */,
 				2D00619F299EEE98005755FC /* Preview Content */,
@@ -140,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D00619C299EEE97005755FC /* ContentView.swift in Sources */,
+				CE7215B529A1B6CF00F7745C /* GameManager.swift in Sources */,
 				2D00619A299EEE97005755FC /* GTSnakeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
