@@ -10,22 +10,6 @@ import SwiftUI
 final class GameManager: ObservableObject {
     enum Direction: UInt16 {
         case up = 126, down = 125, left = 123, right = 124
-        
-        var displacement: (row: Int, col: Int) {
-            switch self {
-            case .down: return (row: 1, col: 0)
-            case .up: return (row: -1, col: 0)
-            case .left: return (row: 0, col: -1)
-            case .right: return (row: 0, col: 1)
-            }
-        }
-        
-        func isOpposite(to other: Direction) -> Bool {
-            return self == .up && other == .down ||
-                self == .down && other == .up ||
-                self == .left && other == .right ||
-                self == .right && other == .left
-        }
     }
     
     enum GameState {
@@ -82,7 +66,7 @@ final class GameManager: ObservableObject {
     /// array
     /// - Parameter date: The current date, you won't need to use this param here.
     func update(_ date: Date) {
-        guard gameState == .playing else { return }
+        // check the game state. If game is lost, don't do anything
         
         // The first thing to do is to clear the grid.
         self.clear()
@@ -90,49 +74,22 @@ final class GameManager: ObservableObject {
         // Move the snakes head. Hint: most of the snakes body actually stays
         // the same. The only squares that change are the head and the tail.
         // I also suggest keeping the coordinate of the snake somewhere.
-        var newHead = snake[0]
-        newHead.row += currentDirection.displacement.row
-        newHead.col += currentDirection.displacement.col
+        
+        /*Add code here*/
         
         // Check for bounds. Make sure the snake stays inside the grid
-        if newHead.row >= rows {
-            newHead.row = 0
-        } else if newHead.row < 0 {
-            newHead.row = rows - 1
-        }
         
-        if newHead.col >= cols {
-            newHead.col = 0
-        } else if newHead.col <= 0 {
-            newHead.col = cols - 1
-        }
+        /*Add code here*/
         
         // Check if the game has been lost. When is the game lost? When the
         // snake tried to eat itself!
-        for bodyPart in snake {
-            if bodyPart.row == newHead.row && bodyPart.col == newHead.col {
-                self.gameState = .lost
-                return
-            }
-        }
-        
-        snake = snake.dropLast()
-        snake.insert(newHead, at: 0)
+
+        /*Add code here*/
         
         // Check if the head of the snake if on top of food. In that case,
         // consume the food. Otherwise, maybe create food if food doesn't exist?
-        if let food {
-            if let tail = snake.last, food.row == snake[0].row && food.col == snake[0].col {
-                // add tail
-                snake.append(tail)
-                self.food = nil
-            }
-        } else {
-            self.food = (
-                row: Int.random(in: 0 ..< rows),
-                col: Int.random(in: 0 ..< cols)
-            )
-        }
+        
+        /*Add code here*/
         
         // Actually draw the snakes body into the grid.
         for (row, col) in snake {
@@ -157,9 +114,8 @@ final class GameManager: ObservableObject {
         // Hint: if the new direction is opposite to the current direction,
         // just ignore this key event. Otherwise, you will end up with snake
         // eating itself
-        if newDirection.isOpposite(to: currentDirection) {
-            return
-        }
+
+        /*Add code here*/
         
         self.currentDirection = newDirection
         
