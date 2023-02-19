@@ -12,7 +12,8 @@ snake current velocity, if the game has been lost, how many food items the snake
 we will learn more about how we can take the state and render it.
 
 ## Steps
-1. Clone the repo. First thing to do is to switch into a folder where you want the game to be stored and then run `git clone `
+1. Clone the repo. First thing to do is to switch into a folder where you want the game to be stored and then run 
+`git clone https://github.com/atlant04/GTSnake.git`
 2. Switch the branch to `hw`. Since this is not the actual homework, the solution is on the `main` branch. Please, switch to the assignment branch with
 `git switch hw`.
 You can check your solution with ours by switching to the main branch. 
