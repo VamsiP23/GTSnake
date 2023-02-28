@@ -146,10 +146,10 @@ final class GameManager: ObservableObject {
     init() {
         self.clear()
         self.snake = [
-            (row: 0, col: cols / 2),
             (row: 1, col: cols / 2),
             (row: 2, col: cols / 2),
             (row: 3, col: cols / 2),
+            (row: 4, col: cols / 2),
         ].reversed()
     }
     
