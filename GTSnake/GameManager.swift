@@ -49,8 +49,9 @@ final class GameManager: ObservableObject {
     
     init() {
         // first we need to clear the grid
-        self.clear()
-        // initialize a default snake here.
+        self.restartGame()
+        // then initialize a default snake.
+
     }
     
     
