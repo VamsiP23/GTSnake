@@ -35,6 +35,15 @@ final class GameManager: ObservableObject {
         // first we need to clear the grid
         self.clear()
         // initialize a default snake here.
+        self.snake = [
+            (row: 0, col: cols / 2),
+            (row: 1, col: cols / 2),
+            (row: 2, col: cols / 2),
+            (row: 3, col: cols / 2),
+        ].reversed()
+        
+        self.currentDirection = .down
+        self.gameState = .playing
     }
     
     
@@ -70,12 +79,29 @@ final class GameManager: ObservableObject {
         
         // The first thing to do is to clear the grid.
         self.clear()
-        
         // Move the snakes head. Hint: most of the snakes body actually stays
         // the same. The only squares that change are the head and the tail.
         // I also suggest keeping the coordinate of the snake somewhere.
         
-        /*Add code here*/
+        var snakeHead = snake[0]
+        print(currentDirection)
+        if (self.currentDirection == .down) {
+            for i in 0...snake.count-1 {
+                snake[i].row += 1
+            }
+        } else if (self.currentDirection == .up) {
+            for i in 0...snake.count-1 {
+                snake[i].row += -1
+            }
+        } else if (self.currentDirection == .left) {
+            for i in 0...snake.count-1 {
+                snake[i].col += -1
+            }
+        } else {
+            for i in 0...snake.count-1 {
+                snake[i].col += 1
+            }
+        }
         
         // Check for bounds. Make sure the snake stays inside the grid
         
