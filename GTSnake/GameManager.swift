@@ -86,36 +86,61 @@ final class GameManager: ObservableObject {
         var snakeHead = snake[0]
         print(currentDirection)
         if (self.currentDirection == .down) {
-            for i in 0...snake.count-1 {
-                snake[i].row += 1
-            }
+            snakeHead.row += 1
         } else if (self.currentDirection == .up) {
-            for i in 0...snake.count-1 {
-                snake[i].row += -1
-            }
+            snakeHead.row += -1
         } else if (self.currentDirection == .left) {
-            for i in 0...snake.count-1 {
-                snake[i].col += -1
-            }
+            snakeHead.col += -1
         } else {
-            for i in 0...snake.count-1 {
-                snake[i].col += 1
-            }
+            snakeHead.col += 1
         }
+        
+        
+        
         
         // Check for bounds. Make sure the snake stays inside the grid
         
-        /*Add code here*/
+        if(snakeHead.row >= rows) {
+            snakeHead.row = 0
+        } else if(snakeHead.row < 0) {
+            snakeHead.row = rows - 1
+        }
+        
+        if(snakeHead.col >= cols) {
+            snakeHead.col = 0
+        } else if(snakeHead.col < 0) {
+            snakeHead.row = cols - 1
+        }
+        snake.removeLast()
+        snake.insert(snakeHead, at: 0)
         
         // Check if the game has been lost. When is the game lost? When the
         // snake tried to eat itself!
 
-        /*Add code here*/
+        for i in 1...snake.count-1 {
+            var body = snake[i]
+            if body.row == snake[0].row && body.col == snake[0].col {
+                self.clear()
+                self.gameState = .lost
+                return
+            }
+        }
         
         // Check if the head of the snake if on top of food. In that case,
         // consume the food. Otherwise, maybe create food if food doesn't exist?
         
-        /*Add code here*/
+        if let food {
+            if let tail = snake.last, food.row == snake[0].row && food.col == snake[0].col {
+                // add tail
+                snake.append(tail)
+                self.food = nil
+            }
+        } else {
+            food = (
+                row: Int.random(in: 0 ..< rows),
+                col: Int.random(in: 0 ..< cols)
+            )
+        }
         
         // Actually draw the snakes body into the grid.
         for (row, col) in snake {
@@ -141,7 +166,10 @@ final class GameManager: ObservableObject {
         // just ignore this key event. Otherwise, you will end up with snake
         // eating itself
 
-        /*Add code here*/
+        if(newDirection == .down && currentDirection == .up || newDirection == .up && currentDirection == .down || newDirection == .left && currentDirection == .right
+           || newDirection == .right && currentDirection == .left) {
+            return
+        }
         
         self.currentDirection = newDirection
         
